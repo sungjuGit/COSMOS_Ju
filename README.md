@@ -1,5 +1,5 @@
 # COSMOS_Ju
 
-Repository for Jupyter Notebooks used for ML study at COSMOS UCLA by Professor Sungtaek Ju
+Repository for Arduino codes and Jupyter Notebooks used for mechatronics and ML study at COSMOS UCLA by Professor Sungtaek Ju
 
-Click on each notebook and then click on ![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg) to open and run the notebook.
+For the Jupyter notebooks, click on each notebook and then click on ![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg) to open and run the notebook.
