@@ -18,19 +18,17 @@ void Timer2::init(int time)
   MsTimer2::start();
 }
 
-//static void Timer2::interrupt() //
+
 void Timer2::interrupt()
 { 
   sei();
   myBalanced.Get_EncoderSpeed();
   
   mympu6050.DataProcessing();
-  //Serial.print(kalmanfilter.angle);
   
   myBalanced.PD_VerticalRing();
-  //Serial.print("Balanced.setting_turn_speed:");Serial.println(Balanced.setting_turn_speed);
   
-  myBalanced.interrupt_cnt++;//Serial.print("Balanced.setting_car_speed:");Serial.println(Balanced.setting_car_speed);
+  myBalanced.interrupt_cnt++;
   if(myBalanced.interrupt_cnt > 8)
   {
     myBalanced.interrupt_cnt=0;
@@ -64,7 +62,7 @@ void Balanced::PI_SpeedRing()
    car_speed_integral += -setting_car_speed; 
    car_speed_integral = constrain(car_speed_integral, -3000, 3000);
 
-   speed_control_output = -kp_speed * speed_filter - ki_speed * car_speed_integral;
+   speed_control_output = kp_speed * speed_filter + ki_speed * car_speed_integral;
 }
 
 void Balanced::PD_VerticalRing()
@@ -74,19 +72,19 @@ void Balanced::PD_VerticalRing()
 
 void Balanced::PI_SteeringRing()
 {  
-   rotation_control_output = setting_turn_speed + kd_turn * kalmanfilter.Gyro_z;////control with Z-axis gyroscope
+   rotation_control_output = setting_turn_speed + kd_turn * kalmanfilter.Gyro_z;
 }
 
 
 void Balanced::Total_Control()
 {
-  pwm_left = balance_control_output - speed_control_output - rotation_control_output;//Superposition of Vertical Velocity Steering Ring
-  pwm_right = balance_control_output - speed_control_output + rotation_control_output;//Superposition of Vertical Velocity Steering Ring
+  pwm_left = balance_control_output + speed_control_output - rotation_control_output;
+  pwm_right = balance_control_output + speed_control_output + rotation_control_output;
   
   pwm_left = constrain(pwm_left, -MaxPWM, MaxPWM);
   pwm_right = constrain(pwm_right, -MaxPWM, MaxPWM);
 
-  while(kalmanfilter.angle < Balance_angle_MIN || Balance_angle_MAX < kalmanfilter.angle)  // EXCESSIVE_ANGLE_TILT) // || PICKED_UP)
+  while(kalmanfilter.angle < Balance_angle_MIN || Balance_angle_MAX < kalmanfilter.angle) 
   { 
     mympu6050.DataProcessing();
     mymotor.Stop();
@@ -102,12 +100,12 @@ void Balanced::Total_Control()
 
 void Balanced::Get_EncoderSpeed()
 {
-  encoder_left_pulse_num_speed += pwm_left < 0 ? -mymotor.encoder_count_left_a : //-Motor::encoder_count_left_a : 
-                                                  mymotor.encoder_count_left_a;  //Motor::encoder_count_left_a;
-  encoder_right_pulse_num_speed += pwm_right < 0 ? -mymotor.encoder_count_right_a : //-Motor::encoder_count_right_a : 
-                                                    mymotor.encoder_count_right_a; //Motor::encoder_count_right_a;
-  mymotor.encoder_count_left_a = 0;  //  Motor::encoder_count_left_a=0;
-  mymotor.encoder_count_right_a = 0;  //  Motor::encoder_count_right_a=0;
+  encoder_left_pulse_num_speed += pwm_left < 0 ? -mymotor.encoder_count_left_a : 
+                                                  mymotor.encoder_count_left_a;  
+  encoder_right_pulse_num_speed += pwm_right < 0 ? -mymotor.encoder_count_right_a : 
+                                                    mymotor.encoder_count_right_a; 
+  mymotor.encoder_count_left_a = 0;  
+  mymotor.encoder_count_right_a = 0; 
 }
 
 void Balanced::Motion_Control(Direction direction)
@@ -115,17 +113,17 @@ void Balanced::Motion_Control(Direction direction)
   switch(direction)
   {
     case STOP:
-                  Stop();break;
+                  Stop(); break;
     case FORWARD:
-                  Forward(f_speed);break;
+                  Forward(f_speed); break;
     case BACK:
-                  Back(b_speed);break;
+                  Back(b_speed); break;
     case LEFT:
-                  Left(t_speed);break;
+                  Left(t_speed); break;
     case RIGHT:
-                  Right(t_speed);break;
+                  Right(t_speed); break;
     default:      
-                  Stop();break;
+                  Stop(); break;
   }
 }
 
@@ -174,10 +172,10 @@ MyMpu6050::MyMpu6050()
 
 void MyMpu6050::DataProcessing()
 {  
-  MPU6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);// Data acquisition of MPU6050 gyroscope and accelerometer
-  //kalmanfilter.Angletest(ax, ay, az, gx, gy, gz, dt, Q_angle, Q_gyro, R_angle, C_0, K1);// Obtaining Angle by Kalman Filter
+  MPU6050.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  
   kalmanfilter.Angle(ax, ay, az, gx, gy, gz, dt, Q_angle, Q_gyro, R_angle, C_0, K1);// Obtaining Angle by Kalman Filter
-  //Serial.println(gx);
+  
 }
 
 void MyMpu6050::SetOffset(int16_t ax_offset, int16_t ay_offset, int16_t az_offset, int16_t gx_offset, int16_t gy_offset, int16_t gz_offset)
