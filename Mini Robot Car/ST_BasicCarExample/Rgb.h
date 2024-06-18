@@ -1,3 +1,11 @@
+/*
+ * @Description: RGB.h
+ * @Author: 
+ * @Date: 
+ * @LastEditTime: 
+ * @LastEditors: 
+ */
+ 
 #include "Adafruit_NeoPixel.h"
 
 class RGB : public Adafruit_NeoPixel

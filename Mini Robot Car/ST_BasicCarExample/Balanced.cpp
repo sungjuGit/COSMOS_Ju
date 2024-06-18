@@ -1,3 +1,11 @@
+/*
+ * @Description: Balanced.cpp
+ * @Author: 
+ * @Date: 
+ * @LastEditTime: 
+ * @LastEditors: 
+ */
+ 
 #include "Balanced.h"
 #include "Motor.h"
 #include "Obstacle.h"
