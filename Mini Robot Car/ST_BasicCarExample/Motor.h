@@ -9,6 +9,7 @@
 #ifndef _MOTOR_H
 #define _MOTOR_H
 
+#include "Pins.h"
 
 class Motor
 {
@@ -24,24 +25,8 @@ class Motor
   public:
           static unsigned long encoder_count_right_a;
           static unsigned long encoder_count_left_a;
-          
-  private:
-          /*Motor pin*/
-          #define AIN1 7
-          #define PWMA_LEFT 5
-          #define BIN1 12
-          #define PWMB_RIGHT 6
-          #define STBY_PIN 8
-          
-          /*Encoder measuring speed  pin*/
-          #define ENCODER_LEFT_A_PIN 2
-          #define ENCODER_RIGHT_A_PIN 4
 
-  };
-
-
-
-
+};
 
 
 
