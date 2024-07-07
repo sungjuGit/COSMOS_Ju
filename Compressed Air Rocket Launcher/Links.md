@@ -12,6 +12,7 @@ Mac OS: Double-click the file to mount and open the disk image with installer ap
 
 
 [Motion Tracker Quick Start](https://www.youtube.com/watch?v=n4Eqy60yYUY)
+
 [Getting Started with Tracker](https://www.youtube.com/watch?v=La3H7JywgX0)
 
 [Apogee Prediction](https://www.google.com/url?q=https%3A%2F%2Fwww1.grc.nasa.gov%2Fbeginners-guide-to-aeronautics%2Ffltcalc%2F&sa=D)
