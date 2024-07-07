@@ -11,6 +11,8 @@
 [Apogee Prediction](https://www.google.com/url?q=https%3A%2F%2Fwww1.grc.nasa.gov%2Fbeginners-guide-to-aeronautics%2Ffltcalc%2F&sa=D)
 
 
+****
+
 For additional info
 
 https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/rocket-stability/
